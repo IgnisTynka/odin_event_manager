@@ -33,6 +33,17 @@ def save_thank_you_letter(id, from_letter)
     end
 end
 
+def clean_phone_number(phone_number)
+    phone_number.to_s.gsub!(/\D/, "")
+    if phone_number.length == 10
+        phone_number
+    elsif phone_number.length == 11 && phone_number[0] == 1 
+        phone_number..slice[1]
+    else 
+        "Bad number"
+    end
+end
+
 contents = CSV.open(
     'event_attendees.csv',
     headers: true,
@@ -48,10 +59,11 @@ contents.each do |row|
   
     zipcode = clean_zipcode(row[:zipcode])
 
-    legislators = legislators_by_zipcode(zipcode)
+    phone_number = clean_phone_number(row[:homephone])
+    # legislators = legislators_by_zipcode(zipcode)
 
-    from_letter = erb_template.result(binding)
+    # from_letter = erb_template.result(binding)
 
-    save_thank_you_letter(id, from_letter)
-    
+    # save_thank_you_letter(id, from_letter)
+    puts "#{name} #{phone_number}"
 end
