@@ -44,6 +44,10 @@ def clean_phone_number(phone_number)
     end
 end
 
+def time_targeting(time)
+
+end
+
 contents = CSV.open(
     'event_attendees.csv',
     headers: true,
@@ -60,10 +64,13 @@ contents.each do |row|
     zipcode = clean_zipcode(row[:zipcode])
 
     phone_number = clean_phone_number(row[:homephone])
+
+    date = row[:regate]
+
     # legislators = legislators_by_zipcode(zipcode)
 
     # from_letter = erb_template.result(binding)
 
     # save_thank_you_letter(id, from_letter)
-    puts "#{name} #{phone_number}"
+    puts "#{name} #{phone_number} #{date}"
 end
