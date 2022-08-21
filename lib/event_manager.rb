@@ -77,14 +77,13 @@ contents.each do |row|
 
     day_list[days[date.wday]] += 1
     
-    # legislators = legislators_by_zipcode(zipcode)
+    legislators = legislators_by_zipcode(zipcode)
 
-    # from_letter = erb_template.result(binding)
+    from_letter = erb_template.result(binding)
 
-    # save_thank_you_letter(id, from_letter)
+    save_thank_you_letter(id, from_letter)
     puts "#{name} #{phone_number} #{date}"
 end
-
 
 puts "Most activate hour: " << most_activate(hour_list).to_s
 
