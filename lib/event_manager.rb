@@ -44,15 +44,21 @@ def clean_phone_number(phone_number)
     end
 end
 
-def time_targeting(time)
-
+def most_activate(hash)
+    hash.key(hash.values.max)
 end
+  
 
 contents = CSV.open(
     'event_attendees.csv',
     headers: true,
     header_converters: :symbol
   )
+
+hour_list = Hash.new(0)
+day_list = Hash.new(0)
+
+days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
 template_letter = File.read('from_letter.erb')
 erb_template = ERB.new template_letter
@@ -65,8 +71,12 @@ contents.each do |row|
 
     phone_number = clean_phone_number(row[:homephone])
 
-    date = row[:regate]
+    date= DateTime.strptime(row[:regdate], '%m/%d/%y %H:%M')
 
+    hour_list[date.hour] += 1
+
+    day_list[days[date.wday]] += 1
+    
     # legislators = legislators_by_zipcode(zipcode)
 
     # from_letter = erb_template.result(binding)
@@ -74,3 +84,8 @@ contents.each do |row|
     # save_thank_you_letter(id, from_letter)
     puts "#{name} #{phone_number} #{date}"
 end
+
+
+puts "Most activate hour: " << most_activate(hour_list).to_s
+
+puts "Most activate day: " << most_activate(day_list)
